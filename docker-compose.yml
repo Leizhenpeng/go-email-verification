@@ -1,0 +1,27 @@
+version: '3'
+services:
+  mongo:
+    container_name: container-mongodb
+    image: mongo
+    restart: always
+    ports:
+      - "6000:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: forkway2023
+      MONGO_INITDB_DATABASE: email-verifications
+
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass "forkway2023"
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisDB:/data
+volumes:
+  mongodb:
+  redisDB:

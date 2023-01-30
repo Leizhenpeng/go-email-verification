@@ -1,0 +1,26 @@
+definitions:
+  models.PingResponse:
+    properties:
+      Code:
+        example: 200
+        type: integer
+      Message:
+        example: pong
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /ping:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PingResponse'
+      summary: Test if server is alive
+      tags:
+      - Common
+swagger: "2.0"

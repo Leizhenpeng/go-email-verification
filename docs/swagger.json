@@ -1,0 +1,42 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/ping": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Common"
+                ],
+                "summary": "Test if server is alive",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PingResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.PingResponse": {
+            "type": "object",
+            "properties": {
+                "Code": {
+                    "type": "integer",
+                    "example": 200
+                },
+                "Message": {
+                    "type": "string",
+                    "example": "pong"
+                }
+            }
+        }
+    }
+}
