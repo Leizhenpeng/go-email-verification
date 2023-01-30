@@ -43,4 +43,4 @@ func Ping(c *gin.Context) {
 
 [Gin middleware with Swagger 2.0](https://github.com/swaggo/gin-swagger)
 
-[使用swaggo自动生成Restful API文档](https://ieevee.com/tech/2018/04/19/go-swag.html)
+[使用swaggo自动生成Restful API文档](https://razeen.me/posts/go-swagger)
