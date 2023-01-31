@@ -20,9 +20,10 @@ type Config struct {
 	SmtpHost  string `mapstructure:"SMTP_HOST"`
 	SmtpUser  string `mapstructure:"SMTP_USER"`
 	SmtpPass  string `mapstructure:"SMTP_PASS"`
-	SmtpPort  string `mapstructure:"SMTP_PORT"`
+	SmtpPort  int    `mapstructure:"SMTP_PORT"`
 
-	Origin string `mapstructure:"CLIENT_ORIGIN"`
+	Origin  string `mapstructure:"CLIENT_ORIGIN"`
+	BaseUrl string `mapstructure:"BASE_URL"`
 }
 
 var config *Config

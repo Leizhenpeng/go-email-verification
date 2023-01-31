@@ -8,4 +8,5 @@ dev:
 swag:
 	swag init
 	gow run ./
+
 .PHONY: database dev destroy

@@ -1,7 +1,14 @@
 ## go-email-verification
 
+<p align='center'>
+  <img src='./img.png' alt='email verification' width='600'/>
+</p>
 
+<p align='center'>
+ email verification <b>Gin</b><sup><em>(speed)</em></sup><br>
+</p>
 
+<br>
 
 ## Features
 
@@ -15,7 +22,7 @@
 
 ### 接口文档
 
-如果前端不喜欢装客户顿，swagger让彼此成为好盆友
+有些前端不喜欢在电脑上装客户端，swagger会成为他的好盆友
 
 ``` golang
 type PingResponse struct {

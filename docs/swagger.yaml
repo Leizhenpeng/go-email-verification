@@ -79,25 +79,6 @@ paths:
       summary: 登录
       tags:
         - User
-  /logout:
-    post:
-      consumes:
-        - application/x-json-stream
-      operationId: logout
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Token'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/models.Resp'
-      security:
-        - ApiKeyAuth: [ ]
-      summary: 退出登录
-      tags:
-        - User
   /me:
     get:
       consumes:
@@ -129,7 +110,7 @@ paths:
             $ref: '#/definitions/models.Resp'
       summary: Test if server is alive
       tags:
-        - Common
+        - Health
   /refresh_token:
     post:
       consumes:
@@ -147,6 +128,22 @@ paths:
       security:
         - ApiKeyAuth: [ ]
       summary: 刷新token
+      tags:
+        - User
+  /send_email:
+    post:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Resp'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 发送认证邮箱
       tags:
         - User
   /signup:

@@ -1,45 +1,31 @@
 package models
 
-import (
-	"context"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-)
+import "time"
 
-var userCollection *mongo.Collection
-
-func InitUserCollection() {
-	userCollection = client.Database("email-verifications").Collection("users")
-	SetEmailUniqueIndex()
+type LoginInputReq struct {
+	Email    string `json:"email" bson:"Email"  binding:"required" default:"rivers@88.com"`
+	Password string `json:"password" bson:"Password"  binding:"required" default:"123456"`
 }
 
-func GetUserCollection() *mongo.Collection {
-	return userCollection
+type UserInfo struct {
+	Name         string    `json:"name" bson:"Name"  binding:"required"`
+	Email        string    `json:"email" bson:"Email"  binding:"required"`
+	Password     string    `json:"password" bson:"Password"  binding:"required"`
+	VerifiedCode string    `json:"verifiedCode,omitempty" bson:"VerifiedCode,omitempty"`
+	Verified     bool      `json:"verified" bson:"Verified" default:"false"`
+	CreateAt     time.Time `json:"createAt" bson:"CreateAt"`
+	UpdateAt     time.Time `json:"updateAt" bson:"UpdateAt"`
 }
 
-func SetEmailUniqueIndex() {
-	userCollection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
-		Keys:    bson.M{"Email": 1},
-		Options: options.Index().SetUnique(true),
-	})
-}
-func AddUser(ctx context.Context, user *UserInfo) (*mongo.InsertOneResult, error) {
-	return userCollection.InsertOne(ctx, user)
+type DBUserResponse struct {
+	Name     string `json:"name" bson:"Name"  binding:"required"`
+	Email    string `json:"email" bson:"Email"  binding:"required"`
+	ID       string `json:"id" bson:"_id"`
+	Verified bool   `json:"verified" bson:"Verified"`
 }
 
-func GetUserByID(ctx context.Context, id interface{}) (*mongo.SingleResult, error) {
-	return userCollection.FindOne(ctx, map[string]interface{}{"_id": id}), nil
-}
-
-func GetUserByEmail(ctx context.Context, email string) (*mongo.SingleResult, error) {
-	return userCollection.FindOne(ctx, map[string]interface{}{"Email": email}), nil
-}
-
-func UpdateUser(ctx context.Context, email string, update interface{}) (*mongo.UpdateResult, error) {
-	return userCollection.UpdateOne(ctx, map[string]interface{}{"Email": email}, update)
-}
-
-func DeleteUser(ctx context.Context, email string) (*mongo.DeleteResult, error) {
-	return userCollection.DeleteOne(ctx, map[string]interface{}{"Email": email})
+type UserInfoResponse struct {
+	Name     string `json:"name" bson:"Name"  binding:"required"`
+	Email    string `json:"email" bson:"Email"  binding:"required"`
+	Verified bool   `json:"verified" bson:"Verified"`
 }

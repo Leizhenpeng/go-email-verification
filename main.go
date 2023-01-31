@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
 	"leizhenpeng/go-email-verification/config"
+	"leizhenpeng/go-email-verification/initialize"
 	"leizhenpeng/go-email-verification/middles"
-	"leizhenpeng/go-email-verification/models"
 	"leizhenpeng/go-email-verification/routers"
 	"leizhenpeng/go-email-verification/services"
 	"log"
@@ -31,12 +32,13 @@ func main() {
 		log.Fatal("Error loading config: ", err)
 		return
 	}
+	fmt.Printf("Config: %+v: ", config.GetConfig())
 	ctx = context.Background()
-	models.InitClient(ctx)
-	defer models.CloseClient(ctx)
+	initialize.InitClient(ctx)
+	defer initialize.CloseClient(ctx)
 
-	models.InitUserCollection()
-	userService := services.NewUserServicesImpl(models.GetUserCollection(), ctx)
+	services.InitUserCollection()
+	userService := services.NewUserServicesImpl(services.GetUserCollection(), ctx)
 
 	server := gin.Default()
 	server.Use(requestid.New())

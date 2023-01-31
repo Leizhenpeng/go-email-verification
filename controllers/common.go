@@ -13,7 +13,7 @@ type errorString struct {
 // Ping godoc
 //	@Summary	Test if server is alive
 //	@Schemes
-//	@Tags		Common
+//	@Tags		Health
 //	@Produce	json
 // @Success 200 object models.Resp 返回列表
 // @Failure 500 object models.Resp 查询失败

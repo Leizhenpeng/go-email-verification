@@ -40,7 +40,8 @@ func identityHandler(c *gin.Context) interface{} {
 func payloadHandle(data interface{}) jwt.MapClaims {
 	fmt.Printf("data: %+v", data)
 	return jwt.MapClaims{
-		"id": data.(*models.DBUserResponse).ID,
+		"id":    data.(*models.DBUserResponse).ID,
+		"email": data.(*models.DBUserResponse).Email,
 	}
 }
 
@@ -56,7 +57,7 @@ func loginResponse(c *gin.Context, code int, token string, expires time.Time) {
 		RequestId: requestid.Get(c),
 		Code:      http.StatusOK,
 		Data: models.Token{
-			Token:   token,
+			Token:   "Bearer " + token,
 			Expires: expires,
 		},
 		Msg: models.CustomError[models.Ok],

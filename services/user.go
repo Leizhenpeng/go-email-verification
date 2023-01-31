@@ -16,6 +16,8 @@ type UserServices interface {
 	Login(user *models.LoginInputReq) (*models.DBUserResponse, error)
 	FindUserByEmail(email string) (*models.DBUserResponse, error)
 	FindUserById(id string) (*models.UserInfoResponse, error)
+	SendEmailVerification(email string) error
+	VerifyEmail(email string, code string) error
 }
 
 type UserServicesImpl struct {
@@ -23,9 +25,31 @@ type UserServicesImpl struct {
 	ctx        context.Context
 }
 
+func (u UserServicesImpl) SendEmailVerification(email string) error {
+	code := utils.GenEmailVerificationCode()
+	// update database
+	re, err := UpdateUserFieldByEmail(u.ctx, email, "VerifiedCode", code)
+	if err != nil {
+		return err
+	}
+	fmt.Println(re)
+	EmailData := GenEmailData(email, code)
+	err = SendEmail(email, EmailData)
+	if err != nil {
+		return err
+	}
+	return nil
+	// send email
+}
+
+func (u UserServicesImpl) VerifyEmail(email string, code string) error {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (u UserServicesImpl) FindUserById(id string) (*models.UserInfoResponse, error) {
 	oid, _ := primitive.ObjectIDFromHex(id)
-	res, err := models.GetUserByID(u.ctx, oid)
+	res, err := GetUserByID(u.ctx, oid)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
@@ -35,7 +59,7 @@ func (u UserServicesImpl) FindUserById(id string) (*models.UserInfoResponse, err
 }
 
 func (u UserServicesImpl) Login(user *models.LoginInputReq) (*models.DBUserResponse, error) {
-	res, err := models.GetUserByEmail(u.ctx, user.Email)
+	res, err := GetUserByEmail(u.ctx, user.Email)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
@@ -69,7 +93,7 @@ func (u UserServicesImpl) SignUp(user *models.UserInfo) (*models.DBUserResponse,
 		return nil, err
 	}
 	user.Password = password
-	result, err := models.AddUser(u.ctx, user)
+	result, err := AddUser(u.ctx, user)
 	if err != nil {
 		if er, ok := err.(mongo.WriteException); ok && er.WriteErrors[0].Code == 11000 {
 			return nil, errors.New("user with that email already exist")
@@ -77,7 +101,7 @@ func (u UserServicesImpl) SignUp(user *models.UserInfo) (*models.DBUserResponse,
 		return nil, err
 	}
 	ObjectID := result.InsertedID
-	re, err := models.GetUserByID(u.ctx, ObjectID)
+	re, err := GetUserByID(u.ctx, ObjectID)
 	if err != nil {
 		return nil, err
 	}

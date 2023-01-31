@@ -26,6 +26,7 @@ type UserControllers interface {
 	SignUp(ctx *gin.Context)
 	Login(ctx *gin.Context) (interface{}, error)
 	Info(ctx *gin.Context)
+	SendEmail(ctx *gin.Context)
 }
 
 func NewUserControllersImpl(ctx context.Context, userS services.UserServices) *UserControllersImpl {
@@ -47,7 +48,7 @@ type UserControllersImpl struct {
 //	@Accept		json
 //	@Produce	json
 //	@Success	200		{}	string "OK"
-// @Security ApiKeyAuth
+//  @Security ApiKeyAuth
 //	@Router		/me [get]
 func (u UserControllersImpl) Info(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
@@ -119,6 +120,26 @@ func (u UserControllersImpl) SignUp(ctx *gin.Context) {
 		}
 	}
 	models.OkWithData(dbResult, ctx)
+}
+
+// SendEmail godoc
+//	@Summary	发送认证邮箱
+//	@Schemes
+//	@Tags		User
+//	@Accept		json
+//	@Produce	json
+//	@Success	200		object	 models.Resp  发送成功
+// @Security ApiKeyAuth
+//	@Router		/send_email [post]
+func (u UserControllersImpl) SendEmail(c *gin.Context) {
+	claims := jwt.ExtractClaims(c)
+	email := claims["email"].(string)
+	err := u.userS.SendEmailVerification(email)
+	if err != nil {
+		models.FailWithMessage(err.Error(), c)
+		return
+	}
+	models.OkWithMessage("ok", c)
 }
 
 var _ UserControllers = &UserControllersImpl{}

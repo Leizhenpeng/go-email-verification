@@ -1,4 +1,4 @@
-package models
+package initialize
 
 import (
 	"context"
@@ -10,16 +10,16 @@ import (
 	"leizhenpeng/go-email-verification/config"
 )
 
-var client *mongo.Client
-var redisClient *redis.Client
+var Client *mongo.Client
+var RedisClient *redis.Client
 
 func initMongoClient(ctx context.Context) (err error) {
 	conn := options.Client().ApplyURI(config.GetConfig().DbUrI)
-	client, err = mongo.Connect(ctx, conn)
+	Client, err = mongo.Connect(ctx, conn)
 	if err != nil {
 		return err
 	}
-	err = client.Ping(ctx, readpref.Primary())
+	err = Client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		return err
 	}
@@ -29,12 +29,12 @@ func initMongoClient(ctx context.Context) (err error) {
 }
 
 func initRedisClient(ctx context.Context) (err error) {
-	redisClient = redis.NewClient(&redis.Options{
+	RedisClient = redis.NewClient(&redis.Options{
 		Addr:     config.GetConfig().RedisUrI,
 		Password: config.GetConfig().RedisPass,
 		DB:       config.GetConfig().RedisDb,
 	})
-	_, err = redisClient.Ping(ctx).Result()
+	_, err = RedisClient.Ping(ctx).Result()
 	if err != nil {
 		return err
 	}
@@ -54,6 +54,6 @@ func InitClient(ctx context.Context) {
 }
 
 func CloseClient(ctx context.Context) {
-	_ = client.Disconnect(ctx)
-	_ = redisClient.Close()
+	_ = Client.Disconnect(ctx)
+	_ = RedisClient.Close()
 }

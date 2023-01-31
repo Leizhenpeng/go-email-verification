@@ -42,37 +42,6 @@
                 }
             }
         },
-        "/logout": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "consumes": [
-                    "application/x-json-stream"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "退出登录",
-                "operationId": "logout",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Token"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Resp"
-                        }
-                    }
-                }
-            }
-        },
         "/me": {
             "get": {
                 "security": [
@@ -106,7 +75,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Common"
+                    "Health"
                 ],
                 "summary": "Test if server is alive",
                 "responses": {
@@ -144,26 +113,53 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Token"
+                          "$ref": "#/definitions/models.Token"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Resp"
-                        }
+                  "400": {
+                    "description": "Bad Request",
+                    "schema": {
+                      "$ref": "#/definitions/models.Resp"
                     }
+                  }
                 }
             }
         },
-        "/signup": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
+      "/send_email": {
+        "post": {
+          "security": [
+            {
+              "ApiKeyAuth": []
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "tags": [
+            "User"
+          ],
+          "summary": "发送认证邮箱",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/definitions/models.Resp"
+              }
+            }
+          }
+        }
+      },
+      "/signup": {
+        "post": {
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
                 "tags": [
                     "User"
                 ],
