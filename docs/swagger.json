@@ -110,112 +110,112 @@
                 "summary": "刷新token",
                 "operationId": "refresh_token",
                 "responses": {
-                  "200": {
-                    "description": "OK",
-                    "schema": {
-                      "$ref": "#/definitions/models.Token"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Token"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Resp"
+                        }
                     }
-                  },
-                  "400": {
-                    "description": "Bad Request",
-                    "schema": {
-                      "$ref": "#/definitions/models.Resp"
-                    }
-                  }
                 }
             }
         },
-      "/send_email": {
-        "post": {
-          "security": [
-            {
-              "ApiKeyAuth": []
+        "/send_email": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "发送认证邮箱",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Resp"
+                        }
+                    }
+                }
             }
-          ],
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "tags": [
-            "User"
-          ],
-          "summary": "发送认证邮箱",
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/models.Resp"
-              }
-            }
-          }
-        }
-      },
-      "/signup": {
-        "post": {
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "tags": [
-            "User"
-          ],
-          "summary": "邮件注册",
-          "parameters": [
-            {
-              "description": "User",
-              "name": "user",
-              "in": "body",
-              "required": true,
+        },
+        "/signup": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "邮件注册",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
                         "schema": {
                             "$ref": "#/definitions/controllers.UserSignUpRequest"
                         }
                     }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/definitions/models.Resp"
-              }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Resp"
+                        }
+                    }
+                }
             }
-          }
+        },
+        "/verify_email": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "邮箱验证",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "info",
+                        "name": "info",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "redirect to main page",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
-      },
-      "/verify_email": {
-        "get": {
-          "consumes": [
-            "application/json"
-          ],
-          "produces": [
-            "application/json"
-          ],
-          "tags": [
-            "User"
-          ],
-          "summary": "邮箱验证",
-          "parameters": [
-            {
-              "type": "string",
-              "description": "info",
-              "name": "info",
-              "in": "query",
-              "required": true
-            }
-          ],
-          "responses": {
-            "302": {
-              "description": "redirect to main page",
-              "schema": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
     },
     "definitions": {
         "controllers.UserSignUpRequest": {

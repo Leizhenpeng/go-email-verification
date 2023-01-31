@@ -48,8 +48,8 @@ func payloadHandle(data interface{}) jwt.MapClaims {
 func unauthorizedFunc(c *gin.Context, code int, message string) {
 	c.JSON(http.StatusUnauthorized, models.Resp{
 		RequestId: requestid.Get(c),
-		Code:      http.StatusUnauthorized,
-		Data:      models.UnauthorizedMsg,
+		Code:      code,
+		Msg:       message,
 	})
 }
 func loginResponse(c *gin.Context, code int, token string, expires time.Time) {
