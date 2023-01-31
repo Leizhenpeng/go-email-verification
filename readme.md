@@ -1,11 +1,9 @@
-## go-email-verification
-
 <p align='center'>
   <img src='./img.png' alt='email verification' width='800'/>
 </p>
 
 <p align='center'>
- email verification By <b>Gin</b><sup><em>(speed)</em></sup><br>
+ Email Verification Power By <b>Gin</b><sup><em>(speed)</em></sup><br>
 </p>
 <br>
 
