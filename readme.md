@@ -1,5 +1,3 @@
-## go-email-verification
-
 <p align='center'>
   <img src='./img.png' alt='email verification' width='600'/>
 </p>
