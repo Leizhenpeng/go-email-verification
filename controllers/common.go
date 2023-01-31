@@ -2,18 +2,22 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
+	"leizhenpeng/go-email-verification/models"
 	_ "leizhenpeng/go-email-verification/models"
 )
 
+type errorString struct {
+	string
+}
+
 // Ping godoc
-// @Summary Test if server is alive
-// @Schemes
-// @Tags Common
-// @Produce json
-// @Success 200 {object}  models.PingResponse
-// @Router /ping [get]
+//	@Summary	Test if server is alive
+//	@Schemes
+//	@Tags		Common
+//	@Produce	json
+// @Success 200 object models.Resp 返回列表
+// @Failure 500 object models.Resp 查询失败
+//	@Router		/ping [get]
 func Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+	models.OkWithMessage("pong", c)
 }

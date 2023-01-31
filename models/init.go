@@ -13,8 +13,7 @@ import (
 var client *mongo.Client
 var redisClient *redis.Client
 
-func initMongoClient() (err error) {
-	ctx := context.TODO()
+func initMongoClient(ctx context.Context) (err error) {
 	conn := options.Client().ApplyURI(config.GetConfig().DbUrI)
 	client, err = mongo.Connect(ctx, conn)
 	if err != nil {
@@ -29,13 +28,13 @@ func initMongoClient() (err error) {
 	return err
 }
 
-func initRedisClient() (err error) {
+func initRedisClient(ctx context.Context) (err error) {
 	redisClient = redis.NewClient(&redis.Options{
 		Addr:     config.GetConfig().RedisUrI,
 		Password: config.GetConfig().RedisPass,
 		DB:       config.GetConfig().RedisDb,
 	})
-	_, err = redisClient.Ping(context.TODO()).Result()
+	_, err = redisClient.Ping(ctx).Result()
 	if err != nil {
 		return err
 	}
@@ -43,18 +42,18 @@ func initRedisClient() (err error) {
 	return err
 }
 
-func InitClient() {
-	err := initMongoClient()
+func InitClient(ctx context.Context) {
+	err := initMongoClient(ctx)
 	if err != nil {
 		panic(err)
 	}
-	err = initRedisClient()
+	err = initRedisClient(ctx)
 	if err != nil {
 		panic(err)
 	}
 }
 
-func CloseClient() {
-	_ = client.Disconnect(context.Background())
+func CloseClient(ctx context.Context) {
+	_ = client.Disconnect(ctx)
 	_ = redisClient.Close()
 }

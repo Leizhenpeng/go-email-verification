@@ -24,8 +24,12 @@ func SetEmailUniqueIndex() {
 		Options: options.Index().SetUnique(true),
 	})
 }
-func AddUser(ctx context.Context, user *SignUpInput) (*mongo.InsertOneResult, error) {
+func AddUser(ctx context.Context, user *UserInfo) (*mongo.InsertOneResult, error) {
 	return userCollection.InsertOne(ctx, user)
+}
+
+func GetUserByID(ctx context.Context, id interface{}) (*mongo.SingleResult, error) {
+	return userCollection.FindOne(ctx, map[string]interface{}{"_id": id}), nil
 }
 
 func GetUserByEmail(ctx context.Context, email string) (*mongo.SingleResult, error) {

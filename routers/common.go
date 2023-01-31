@@ -13,9 +13,6 @@ func CommonRoute(router *gin.RouterGroup) {
 }
 
 func SwaggerRoute(router *gin.Engine) {
-	docs.SwaggerInfo.Title = "Email Verification API"
-	docs.SwaggerInfo.Description = "Create and verify email addresses"
-	docs.SwaggerInfo.Version = "1.0"
 	docs.SwaggerInfo.BasePath = "/api"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

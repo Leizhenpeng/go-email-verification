@@ -1,26 +1,179 @@
+basePath: /api
 definitions:
-  models.PingResponse:
+  controllers.UserSignUpRequest:
     properties:
-      Code:
-        example: 200
+      email:
+        default: rivers@88.com
+        type: string
+      name:
+        default: river
+        type: string
+      password:
+        default: "123456"
+        type: string
+    required:
+      - email
+      - name
+      - password
+    type: object
+  models.LoginInputReq:
+    properties:
+      email:
+        default: rivers@88.com
+        type: string
+      password:
+        default: "123456"
+        type: string
+    required:
+      - email
+      - password
+    type: object
+  models.Resp:
+    properties:
+      code:
+        description: 错误代码
         type: integer
-      Message:
-        example: pong
+      data:
+        description: 数据内容
+      msg:
+        description: 消息提示
+        type: string
+      request_id:
+        description: 请求ID
         type: string
     type: object
+  models.Token:
+    properties:
+      expires:
+        description: 过期时间
+        type: string
+      token:
+        description: token
+        type: string
+    type: object
+host: 127.0.0.1:8000
 info:
-  contact: {}
+  contact: { }
+  description: Create and verify email addresses
+  title: Email Verification API
+  version: 1.0.0
 paths:
-  /ping:
-    get:
+  /login:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: User
+          in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/models.LoginInputReq'
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.PingResponse'
+            $ref: '#/definitions/models.Resp'
+      summary: 登录
+      tags:
+        - User
+  /logout:
+    post:
+      consumes:
+        - application/x-json-stream
+      operationId: logout
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Resp'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 退出登录
+      tags:
+        - User
+  /me:
+    get:
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: ""
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 获取用户信息
+      tags:
+        - User
+  /ping:
+    get:
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Resp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Resp'
       summary: Test if server is alive
       tags:
-      - Common
+        - Common
+  /refresh_token:
+    post:
+      consumes:
+        - application/x-json-stream
+      operationId: refresh_token
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Resp'
+      security:
+        - ApiKeyAuth: [ ]
+      summary: 刷新token
+      tags:
+        - User
+  /signup:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: User
+          in: body
+          name: user
+          required: true
+          schema:
+            $ref: '#/definitions/controllers.UserSignUpRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Resp'
+      summary: 邮件注册
+      tags:
+        - User
+securityDefinitions:
+  ApiKeyAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

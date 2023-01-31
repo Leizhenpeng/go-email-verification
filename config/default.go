@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/spf13/viper"
-	"time"
 )
 
 type Config struct {
@@ -13,14 +12,9 @@ type Config struct {
 
 	Port string `mapstructure:"PORT"`
 
-	AccessTokenPrivateKey  string        `mapstructure:"ACCESS_TOKEN_PRIVATE_KEY"`
-	AccessTokenPublicKey   string        `mapstructure:"ACCESS_TOKEN_PUBLIC_KEY"`
-	RefreshTokenPrivateKey string        `mapstructure:"REFRESH_TOKEN_PRIVATE_KEY"`
-	RefreshTokenPublicKey  string        `mapstructure:"REFRESH_TOKEN_PUBLIC_KEY"`
-	AccessTokenExpiresIn   time.Duration `mapstructure:"ACCESS_TOKEN_EXPIRED_IN"`
-	RefreshTokenExpiresIn  time.Duration `mapstructure:"REFRESH_TOKEN_EXPIRED_IN"`
-	AccessTokenMaxAge      int           `mapstructure:"ACCESS_TOKEN_MAXAGE"`
-	RefreshTokenMaxAge     int           `mapstructure:"REFRESH_TOKEN_MAXAGE"`
+	JwtKey        string `mapstructure:"JWT_KEY"`
+	JwtAccessAge  int    `mapstructure:"JWT_ACCESS_AGE"`
+	JwtRefreshAge int    `mapstructure:"JWT_FRESH_AGE"`
 
 	EmailFrom string `mapstructure:"EMAIL_FROM"`
 	SmtpHost  string `mapstructure:"SMTP_HOST"`
