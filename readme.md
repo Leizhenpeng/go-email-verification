@@ -3,7 +3,7 @@
 </p>
 
 <p align='center'>
- email verification By <b>Gin</b><sup><em>(speed)</em></sup><br>
+ Email Verification Power By <b>Gin</b><sup><em>(speed)</em></sup><br>
 </p>
 <br>
 
