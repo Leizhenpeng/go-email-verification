@@ -27,6 +27,7 @@ type UserControllers interface {
 	Login(ctx *gin.Context) (interface{}, error)
 	Info(ctx *gin.Context)
 	SendEmail(ctx *gin.Context)
+	VerifyEmail(ctx *gin.Context)
 }
 
 func NewUserControllersImpl(ctx context.Context, userS services.UserServices) *UserControllersImpl {
@@ -39,6 +40,26 @@ func NewUserControllersImpl(ctx context.Context, userS services.UserServices) *U
 type UserControllersImpl struct {
 	ctx   context.Context
 	userS services.UserServices
+}
+
+//	@Summary	邮箱验证
+//	@Schemes
+//	@Tags		User
+//	@Accept		json
+//	@Produce	json
+// @Success 302 {string} string "redirect to main page"
+// 	@Param info query string true "info"
+//	@Router		/verify_email [get]
+func (u UserControllersImpl) VerifyEmail(ctx *gin.Context) {
+	info := ctx.Query("info")
+	err := u.userS.VerifyEmail(info)
+	if err != nil {
+		models.Result(models.ERROR, nil, err.Error(), ctx)
+		return
+	}
+	//models.Result(models.SUCCESS, nil, "ok", ctx)
+	//redirect to main page
+	ctx.Redirect(302, "https://space.bilibili.com/66891783")
 }
 
 // Info godoc

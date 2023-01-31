@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"leizhenpeng/go-email-verification/initialize"
 	"leizhenpeng/go-email-verification/models"
+	"time"
 )
 
 var userCollection *mongo.Collection
@@ -47,4 +48,16 @@ func UpdateUserFieldByEmail(ctx context.Context, email string, field string, val
 }
 func DeleteUser(ctx context.Context, email string) (*mongo.DeleteResult, error) {
 	return userCollection.DeleteOne(ctx, map[string]interface{}{"Email": email})
+}
+
+func SetMailInfo(ctx context.Context, info string, expire time.Duration) error {
+	return initialize.RedisClient.Set(ctx, info, true, expire).Err()
+}
+
+func GetMailInfo(ctx context.Context, info string) (bool, error) {
+	return initialize.RedisClient.Get(ctx, info).Bool()
+}
+
+func DeleteMailInfo(ctx context.Context, info string) error {
+	return initialize.RedisClient.Del(ctx, info).Err()
 }

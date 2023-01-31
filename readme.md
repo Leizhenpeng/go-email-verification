@@ -5,7 +5,7 @@
 </p>
 
 <p align='center'>
- email verification <b>Gin</b><sup><em>(speed)</em></sup><br>
+ email verification By <b>Gin</b><sup><em>(speed)</em></sup><br>
 </p>
 <br>
 

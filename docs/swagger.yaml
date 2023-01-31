@@ -167,6 +167,26 @@ paths:
       summary: 邮件注册
       tags:
         - User
+  /verify_email:
+    get:
+      consumes:
+        - application/json
+      parameters:
+        - description: info
+          in: query
+          name: info
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "302":
+          description: redirect to main page
+          schema:
+            type: string
+      summary: 邮箱验证
+      tags:
+        - User
 securityDefinitions:
   ApiKeyAuth:
     description: Type "Bearer" followed by a space and JWT token.

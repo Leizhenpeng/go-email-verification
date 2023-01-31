@@ -190,6 +190,37 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/verify_email": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "邮箱验证",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "info",
+                        "name": "info",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "redirect to main page",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {

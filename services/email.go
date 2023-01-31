@@ -20,14 +20,14 @@ type EmailData struct {
 	Subject  string
 }
 
-func GenEmailVerifyURL(code string) string {
+func GenEmailVerifyURL(info string) string {
 	configNow := config.GetConfig()
-	return fmt.Sprintf("%s/verify?code=%s", configNow.BaseUrl, code)
+	return fmt.Sprintf("%s/api/verify_email?info=%s", configNow.BaseUrl, info)
 }
 
-func GenEmailData(email string, code string) *EmailData {
+func GenEmailData(email string, info string) *EmailData {
 	return &EmailData{
-		URL:      GenEmailVerifyURL(code),
+		URL:      GenEmailVerifyURL(info),
 		UserName: email,
 		Subject:  "请激活您的账号",
 	}

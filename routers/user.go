@@ -17,6 +17,8 @@ func InitUserRouter(ctx context.Context, userService services.UserServices, rout
 	}
 	router.POST("/login", authMiddleware.LoginHandler)
 	router.POST("/refresh_token", authMiddleware.RefreshHandler)
+	router.GET("/verify_email", controllersImpl.VerifyEmail)
+
 	{
 		auth := router.Use(authMiddleware.MiddlewareFunc())
 		auth.POST("/logout", authMiddleware.LogoutHandler)
