@@ -1,7 +1,7 @@
 ## go-email-verification
 
 <p align='center'>
-  <img src='./img.png' alt='email verification' width='600'/>
+  <img src='./img.png' alt='email verification' width='800'/>
 </p>
 
 <p align='center'>
@@ -20,6 +20,10 @@
 ## SNAPSHOTS
 
 ### Swagger
+
+<p align='center'>
+  <img src='./img_1.png' alt='email verification' width='600'/>
+</p>
 
 有些前端不喜欢在电脑上装客户端，swagger会成为他的好盆友
 
