@@ -1,7 +1,7 @@
 ## go-email-verification
 
 <p align='center'>
-  <img src='./img.png' alt='email verification' width='800'/>
+  <img src='./img.png' alt='email verification' width='600'/>
 </p>
 
 <p align='center'>
@@ -19,7 +19,7 @@
 
 ## SNAPSHOTS
 
-### 接口文档
+### Swagger
 
 有些前端不喜欢在电脑上装客户端，swagger会成为他的好盆友
 
@@ -107,13 +107,41 @@ r.GET("/ping", func(c *gin.Context) {
 r.Run(":8080")
 ```
 
+### Email-template
+
+golang自带的html/template模板，可以很方便的实现邮件模板
+
+注意，很多邮件客户端对html的style支持不太好，所以需要使用premailer将html转换为内联样式
+
+``` golang
+template.ExecuteTemplate(&body, "email-verify.html", &data)
+htmlString := body.String()
+prem, _ := premailer.NewPremailerFromString(htmlString, nil)
+htmlInline, err := prem.Transform()
+m := gomail.NewMessage()
+
+m.SetHeader("From", from)
+m.SetHeader("To", to)
+m.SetHeader("Subject", data.Subject)
+m.SetBody("text/html", htmlInline)
+m.AddAlternative("text/plain", html2text.HTML2Text(body.String()))
+
+d := gomail.NewDialer(smtpHost, smtpPort, smtpUser, smtpPass)
+d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+```
+
 ## 相关阅读
+
+### Swagger
 
 [Golang and MongoDB using the official mongo-driver](https://wb.id.au/computer/golang-and-mongodb-using-the-mongo-go-driver/)
 
 [Gin middleware with Swagger 2.0](https://github.com/swaggo/gin-swagger)
 
 [使用swag自动生成Restful API文档](https://razeen.me/posts/go-swagger)
+
+### JWT
 
 [Issue:jwt in swagger not include `Bearer`](https://github.com/swaggo/gin-swagger/issues/90)
 
@@ -124,3 +152,11 @@ r.Run(":8080")
 [gin-jwt-example](https://github.com/appleboy/gin-jwt/blob/master/_example/basic/server.go)
 
 [Request ID middleware for Gin Framework](https://github.com/gin-contrib/requestid)
+
+### Email
+
+[在线预览和内联email-html-style](https://htmlemail.io/inline/)
+
+[在线编辑email-html](https://app.postdrop.io/)
+
+[响应式邮件模板](https://github.com/leemunroe/responsive-html-email-template)
