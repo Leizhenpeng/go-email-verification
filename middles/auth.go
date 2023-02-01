@@ -5,8 +5,8 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
-	"leizhenpeng/go-email-verification/config"
 	"leizhenpeng/go-email-verification/controllers"
+	"leizhenpeng/go-email-verification/initialize"
 	"leizhenpeng/go-email-verification/models"
 	"net/http"
 	"time"
@@ -17,9 +17,9 @@ func InitAuthMiddlewares(controllers controllers.UserControllers) (*jwt.GinJWTMi
 		IdentityKey:      "id",
 		Realm:            "email-verification",
 		SigningAlgorithm: "HS256",
-		Key:              []byte(config.GetConfig().JwtKey),
-		Timeout:          time.Hour * time.Duration(config.GetConfig().JwtAccessAge),
-		MaxRefresh:       time.Hour * time.Duration(config.GetConfig().JwtRefreshAge),
+		Key:              []byte(initialize.GetConfig().JwtKey),
+		Timeout:          time.Hour * time.Duration(initialize.GetConfig().JwtAccessAge),
+		MaxRefresh:       time.Hour * time.Duration(initialize.GetConfig().JwtRefreshAge),
 		TokenLookup:      "header: Authorization",
 		TokenHeadName:    "Bearer",
 		TimeFunc:         time.Now,

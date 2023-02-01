@@ -7,14 +7,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"leizhenpeng/go-email-verification/config"
 )
 
 var Client *mongo.Client
 var RedisClient *redis.Client
 
 func initMongoClient(ctx context.Context) (err error) {
-	conn := options.Client().ApplyURI(config.GetConfig().DbUrI)
+	conn := options.Client().ApplyURI(GetConfig().DbUrI)
 	Client, err = mongo.Connect(ctx, conn)
 	if err != nil {
 		return err
@@ -30,9 +29,9 @@ func initMongoClient(ctx context.Context) (err error) {
 
 func initRedisClient(ctx context.Context) (err error) {
 	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     config.GetConfig().RedisUrI,
-		Password: config.GetConfig().RedisPass,
-		DB:       config.GetConfig().RedisDb,
+		Addr:     GetConfig().RedisUrI,
+		Password: GetConfig().RedisPass,
+		DB:       GetConfig().RedisDb,
 	})
 	_, err = RedisClient.Ping(ctx).Result()
 	if err != nil {

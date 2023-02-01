@@ -1,7 +1,8 @@
-package config
+package initialize
 
 import (
 	"github.com/spf13/viper"
+	"log"
 )
 
 type Config struct {
@@ -44,4 +45,11 @@ func LoadConfig(path string) error {
 
 func GetConfig() *Config {
 	return config
+}
+
+func InitConfig(path string) {
+	err := LoadConfig(path)
+	if err != nil {
+		log.Fatal("Error loading config: ", err)
+	}
 }

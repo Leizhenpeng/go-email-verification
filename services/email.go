@@ -9,7 +9,7 @@ import (
 	"github.com/vanng822/go-premailer/premailer"
 	"gopkg.in/gomail.v2"
 	"html/template"
-	"leizhenpeng/go-email-verification/config"
+	"leizhenpeng/go-email-verification/initialize"
 	"os"
 	"path/filepath"
 )
@@ -21,7 +21,7 @@ type EmailData struct {
 }
 
 func GenEmailVerifyURL(info string) string {
-	configNow := config.GetConfig()
+	configNow := initialize.GetConfig()
 	return fmt.Sprintf("%s/api/verify_email?info=%s", configNow.BaseUrl, info)
 }
 
@@ -55,7 +55,7 @@ func ParseTemplateDir(dir string) (*template.Template, error) {
 func SendEmail(email string, data *EmailData) error {
 
 	// Sender data.
-	configNow := config.GetConfig()
+	configNow := initialize.GetConfig()
 	from := configNow.EmailFrom
 	smtpPass := configNow.SmtpPass
 	smtpUser := configNow.SmtpUser

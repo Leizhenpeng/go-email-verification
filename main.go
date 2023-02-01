@@ -2,10 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
-	"leizhenpeng/go-email-verification/config"
 	"leizhenpeng/go-email-verification/initialize"
 	"leizhenpeng/go-email-verification/middles"
 	"leizhenpeng/go-email-verification/routers"
@@ -27,29 +25,26 @@ var ctx context.Context
 // @description Type "Bearer" followed by a space and JWT token.
 
 func main() {
-	err := config.LoadConfig(".")
-	if err != nil {
-		log.Fatal("Error loading config: ", err)
-		return
-	}
-	fmt.Printf("Config: %+v: ", config.GetConfig())
 	ctx = context.Background()
+	//config load
+	initialize.InitConfig(".")
+	//mongodb client
 	initialize.InitClient(ctx)
 	defer initialize.CloseClient(ctx)
-
+	//di services
 	services.InitUserCollection()
 	userService := services.NewUserServicesImpl(services.GetUserCollection(), ctx)
-
+	//gin
 	server := gin.Default()
 	server.Use(requestid.New())
 	server.Use(middles.AddCors())
 
-	routers.SwaggerRoute(server)
-
 	api := server.Group("/api")
-	routers.CommonRoute(api)
-
+	routers.InitCommonRouter(api)
 	routers.InitUserRouter(ctx, userService, api)
+	routers.InitSwaggerRouter(server)
 
-	log.Fatal(server.Run(":" + config.GetConfig().Port))
+	//swagger url
+	log.Println("swagger url:" + initialize.GetConfig().BaseUrl + "/swagger/index.html")
+	log.Fatal(server.Run(":" + initialize.GetConfig().Port))
 }

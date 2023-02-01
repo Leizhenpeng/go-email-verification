@@ -1,6 +1,6 @@
-database:
+db_up:
 	docker-compose up -d
-destroy:
+db_down:
 	docker-compose down
 dev:
 	go run main.go
@@ -9,4 +9,4 @@ swag:
 	swag init
 	gow run ./
 
-.PHONY: database dev destroy
+.PHONY: db_up db_down destroy
