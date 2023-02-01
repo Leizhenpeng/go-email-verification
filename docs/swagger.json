@@ -71,23 +71,23 @@
         },
         "/ping": {
             "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health"
-                ],
-                "summary": "Test if server is alive",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Resp"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
+              "produces": [
+                "application/json"
+              ],
+              "tags": [
+                "Health"
+              ],
+              "summary": "测试连通",
+              "responses": {
+                "200": {
+                  "description": "OK",
+                  "schema": {
+                    "$ref": "#/definitions/models.Resp"
+                  }
+                },
+                "500": {
+                  "description": "Internal Server Error",
+                  "schema": {
                             "$ref": "#/definitions/models.Resp"
                         }
                     }

@@ -10,8 +10,8 @@ import (
 type Resp struct {
 	RequestId string      `json:"request_id"`     // 请求ID
 	Code      int         `json:"code"`           // 错误代码
-	Data      interface{} `json:"data,omitempty"` // 数据内容
 	Msg       string      `json:"msg,omitempty"`  // 消息提示
+	Data      interface{} `json:"data,omitempty"` // 数据内容
 }
 
 const (
@@ -50,8 +50,8 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 	c.JSON(http.StatusOK, Resp{
 		requestid.Get(c),
 		code,
-		data,
 		msg,
+		data,
 	})
 }
 

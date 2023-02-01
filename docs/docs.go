@@ -83,7 +83,7 @@ const docTemplate = `{
                 "tags": [
                     "Health"
                 ],
-                "summary": "Test if server is alive",
+                "summary": "测试连通",
                 "responses": {
                     "200": {
                         "description": "OK",

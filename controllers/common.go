@@ -11,7 +11,7 @@ type errorString struct {
 }
 
 // Ping godoc
-//	@Summary	Test if server is alive
+//	@Summary	测试连通
 //	@Schemes
 //	@Tags		Health
 //	@Produce	json
