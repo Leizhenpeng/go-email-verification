@@ -1,5 +1,5 @@
 <p align='center'>
-  <img src='./img.png' alt='email verification' width='800'/>
+  <img src='./img.png' alt='email verification' width='1000'/>
 </p>
 
 <p align='center'>
@@ -113,7 +113,12 @@ r.Run(":8080")
 
 golang自带的html/template模板，可以很方便的实现邮件模板
 
-注意，很多邮件客户端对html的style支持不太好，所以需要使用premailer将html转换为内联样式
+写邮件html和浏览器不一样，你永远也想象不到收件人的客户端可以理解html到什么程度。
+
+注意两点吧
+
+1. 很多邮件客户端对html的全局style支持不太好，所以需要使用premailer将style转换为内联样式。
+2. 大部分人都有手机看邮件的习惯，邮件的layout一定要可响应式的。
 
 ``` golang
 template.ExecuteTemplate(&body, "email-verify.html", &data)
